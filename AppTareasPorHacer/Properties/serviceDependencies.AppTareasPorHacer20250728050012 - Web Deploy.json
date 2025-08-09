@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.Web/sites/AppTareasPorHacer20250728050012/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsconexion_E842CAA35A",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/apptareasporhacerdbserver/databases/AppTareasPorHacer_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:conexion",
+      "dynamicId": null
+    }
+  }
+}

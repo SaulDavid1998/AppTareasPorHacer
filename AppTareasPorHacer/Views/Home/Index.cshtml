@@ -1,0 +1,99 @@
+﻿@model List<Tarea>
+
+
+@{
+    string warning = "";
+
+}
+<div class="row">
+    <div class="col-md-2 mb-3">
+        <form asp-action="Filtrar" method="post">
+            <div class="mb-3">
+                <label class="form-label" >Categoria</label>
+                <select class="form-select" name="filtros" 
+                   asp-items="@(new SelectList(ViewBag.Categorias,"CategoriaId","CategoriaNombre",ViewBag.Filtros.Categoria))">
+                   <option value="todo">Todo</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Estado</label>
+                <select class="form-select" name="filtros"
+                        asp-items="@(new SelectList(ViewBag.Estados, "EstadoId", "EstadoNombre", ViewBag.Filtros.Estado))">
+                    <option value="todo">Todo</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Plazo</label>
+                <select class="form-select" name="filtros"
+                        asp-items="@(new SelectList(ViewBag.FiltrosPlazo, "Key", "Value", ViewBag.Filtros.Plazo))">
+                    <option value="todo">Todo</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <a class="btn btn-primary" asp-action="Index" asp-route-id="">Limpiar</a>
+        
+        </form>
+    </div>
+    <div class="col-md-10">
+        <form asp-action="MarcarTareaRealizada" method="post" asp-route-id="@ViewBag.Filtros.FilstrosString">
+                
+            <table class="table table-bordered text-white">
+                <thead>
+                    <tr>
+                        <th>Descripcion</th>
+                        <th>Categoria</th>
+                        <th>Plazo Fecha</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                        
+                    @foreach (var registro in Model)
+                        {
+                            @if (registro.EstadoFK=="pendiente" && registro.FechaTarea<DateTime.Today)
+                            {
+                                warning = "bg-warning";
+                            }
+                            else
+                            {
+                                warning = "";
+                            }
+
+                            <tr>
+                                <td>@registro.Descripcion</td>
+                                <td>@registro.Categoria.CategoriaNombre</td>
+                                <td class="@warning">@registro.FechaTarea?.ToShortDateString()</td>
+                                <td class="@warning">@registro.Estado.EstadoNombre</td>
+                                <td>
+                                    @if (registro.EstadoFK=="pendiente")
+                                    {
+                                        <button type="submit" class="btn btn-m btn-primary" name="tareaId" value="@registro.TareaId">
+                                            Completado
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+            
+            
+        </form>
+
+
+        <form asp-action="BorrarTarea" method="post" asp-route-id="@ViewBag.Filtros.FilstrosString">
+            <button type="submit" class="btn btn-primary">Borrar tareas completas</button>
+            <a asp-action="Agregar" class="btn btn-primary"> Agregar Tarea</a>
+        </form>
+
+        
+    </div>
+
+    
+    
+</div>
